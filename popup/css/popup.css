@@ -1,0 +1,37 @@
+/**
+ * DontBugMe Browser Extension.
+ * Easily insert credentials from BugMeNot.com into any page.
+ * This extension is not affiliated to BugMeNot.com in any way.
+ * 
+ * @copyright   Copyright vantezzen (https://github.com/vantezzen)
+ * @link        https://github.com/vantezzen/dontbugme
+ * @license     https://opensource.org/licenses/mit-license.php MIT License
+ */
+ 
+html, body {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.header {
+    background-color: #fa3631;
+    color: #FFF;
+    padding: 10px 10px 5px 20px;
+}
+
+.container {
+    margin-top: 10px;
+}
+
+.logins, input[type="checkbox"] {
+    margin-bottom: 10px;
+}
+
+.login {
+    border-radius: 0 !important;
+    cursor: pointer;
+}
+
+#bugmenot {
+    display: none;
+}
