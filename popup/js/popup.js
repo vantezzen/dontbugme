@@ -51,7 +51,7 @@ function onError(err){
 }
 
 // Query for current open tab
-browser.tabs.query({currentWindow: true, active: true}).then(getTabDomain, onError);
+chrome.tabs.query({currentWindow: true, active: true}, getTabDomain);
 
 // Get logins for current tab
 function getLogins() {
@@ -124,7 +124,7 @@ function getLogins() {
 
 // Execute JavaScript code in current open tab
 function executeInTab(code) {
-    browser.tabs.executeScript({
+    chrome.tabs.executeScript({
         code
     });
 }
