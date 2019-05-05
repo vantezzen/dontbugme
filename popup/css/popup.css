@@ -11,12 +11,22 @@
 html, body {
     width: 100%;
     margin-bottom: 10px;
+    background-color: #2e2b30;
+    color: #FFF;
+}
+
+p {
+    margin-bottom: 0.5rem;
 }
 
 .header {
     background-color: #fa3631;
     color: #FFF;
     padding: 10px 10px 5px 20px;
+}
+
+.header h1 {
+    font-size: 2rem;
 }
 
 .container {
@@ -30,6 +40,24 @@ html, body {
 .login {
     border-radius: 0 !important;
     cursor: pointer;
+    background-color: #3c383e;
+    border: 0;
+    margin-bottom: 0.7rem;
+}
+
+.login-container {
+    padding-right: 0;
+    overflow-wrap: break-word;
+}
+
+.success-container {
+    transform: translateY(calc(50% - 5px));
+}
+
+.success-circle {
+    width: 10px;
+    height: 10px;
+    border-radius: 100%;
 }
 
 #bugmenot {

@@ -7,21 +7,14 @@
  * @link        https://github.com/vantezzen/dontbugme
  * @license     https://opensource.org/licenses/mit-license.php MIT License
  */
-
-// Domain of the current tab
-let domain;
-
-// Current tab instance
-let tab;
-
 // If autosubmit is enabled, check the checkbox
 if (localStorage.getItem('autosubmit') == 'yes') {
-    $('#autosubmit').prop('checked', true);
+    document.getElementById('autosubmit').checked = true;
 }
 
 // Update localStorage variable when autosubmit checkbox gets clicked
-$('#autosubmit').click(function() {
-    if ($('#autosubmit').prop('checked')) {
+document.getElementById('autosubmit').addEventListener('click', () => {
+    if (document.getElementById('autosubmit').checked) {
         localStorage.setItem('autosubmit', 'yes');
     } else {
         localStorage.setItem('autosubmit', 'no');
@@ -29,64 +22,77 @@ $('#autosubmit').click(function() {
 });
 
 // Get the domain of the current tab
-function getTabDomain(tabs) {
-    tab = tabs[0];
-
+const getTabDomain = (tab) => {
     // Get the full domain name (e.g. sub.domain.example.com)
     let fullUrl = tab.url.match(/:\/\/(.[^/]+)/)[1];
 
     // Get the main domain (e.g. example.com)
     let split = fullUrl.split('.');
-    domain = split[split.length - 2] + '.' + split[split.length - 1];
-
-    console.debug("Current domain is " + domain);
-
-    // Get logins for the current domain
-    getLogins();
-}
-
-// Log errors to the console
-function onError(err){
-    console.error(err);
+    return split[split.length - 2] + '.' + split[split.length - 1];
 }
 
 // Query for current open tab
-chrome.tabs.query({currentWindow: true, active: true}, getTabDomain);
+chrome.tabs.query({currentWindow: true, active: true}, tabs => {
+    // Get domain of current tab
+    const domain = getTabDomain(tabs[0]);
+
+    // Get logins for the current domain
+    getLogins(domain);
+});
 
 // Get logins for current tab
-function getLogins() {
+const getLogins = (domain) => {
     // Reset logins list on page
-    $('.logins').text('Searching for logins...');
+    document.getElementById('logins').innerText = 'Searching...';
 
     // Make GET request to bugmenot.com for current domain
-    jQuery.get('http://bugmenot.com/view/' + domain).done(function(data) {
-        // Turn response into jQuery object
-        let page = $(data).find('#content');
+    fetch('http://bugmenot.com/view/' + domain)
+    .then(data => data.text())
+    .then(data => {
+        // Turn response into html element
+        let page = document.createElement('div');
+        page.innerHTML = data;
+        page = page.querySelector('#content');
 
         // Check if there are accounts
-        if (page.find('.account').length == 0) {
-            $('.logins').html('It looks like there are no availible logins for this page.');
+        if (page.getElementsByClassName('account').length == 0) {
+            document.getElementById('logins').innerText = 'It looks like there are no availible logins for this page.';
         } else {
             // Clear logins list
-            $('.logins').html('');
+            document.getElementById('logins').innerHTML = '';
         }
 
         // Loop through accounts on bugmenot page
-        page.find('.account').each(function(el) {
+        const elements = page.getElementsByClassName('account')
+        
+        for (const el of elements) {
             // Get username and password from page
-            let user = $(this).find('kbd').first().text();
-            let pass = $(this).find('kbd').eq(1).text();
+            const kbd = el.querySelectorAll('kbd');
+            const user = kbd[0].innerText;
+            const pass = kbd[1].innerText;
+
+            // Get success rate
+            const successString = el.querySelector('.success_rate').innerText;
+            const success = /\d{1,3}/.exec(successString)[0];
+            const successColor = window.getColor(success);
 
             // Create new element for logins list
-            let element = $(`
-                <li class="list-group-item login">
-                    Username: ` + user + `<br />
-                    Password: ` + pass + `
-                </li>
-            `);
+            let element = document.createElement('li');
+            element.classList.add('list-group-item', 'login')
+            element.innerHTML = `
+                <div class="row">
+                    <div class="col-1 pr-0 success-container">
+                        <div class="success-circle" style="background-color: ${successColor};"></div>
+                    </div>
+                    <div class="col-10 login-container">
+                        <kbd>${user}</kbd><br />
+                        <kbd>${pass}</kbd>
+                    </div>
+                </div>
+            `;
 
             // Add click listener to element
-            element.click(function() {
+            element.addEventListener('click', () => {
                 // Insert username and password into tab
                 // Try to find username input
                 executeInTab("document.querySelector('input[name=email]').value = '" + user + "';");
@@ -102,7 +108,7 @@ function getLogins() {
                 executeInTab("document.querySelector('input[type=password]').value = '" + pass + "';");
 
                 // Submit if autosubmit is on
-                if ($('#autosubmit').prop('checked')) {
+                if (localStorage.getItem('autosubmit') == 'yes') {
                     // Get form of username box and submit it
                     executeInTab("document.querySelector('input[type=password]').form.submit()");
 
@@ -112,14 +118,12 @@ function getLogins() {
             });
 
             // Append new element to logins list
-            $('.logins').append(element);
+            document.getElementById('logins').append(element);
 
             // Log username and password for debugging purposes
-            console.log(user, pass);
-        });
-    }).fail(function(error) {
-        console.log(error);
-    });
+            console.debug(user, pass);
+        }
+    }).catch(console.error);
 }
 
 // Execute JavaScript code in current open tab

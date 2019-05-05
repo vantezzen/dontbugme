@@ -1,7 +1,7 @@
 {
     "manifest_version": 2,
     "name": "DontBugMe",
-    "version": "1.4",
+    "version": "1.5",
 
     "description": "DontBugMe allows you to easily use credentials from BugMeNot.com on any page. This extension is not affiliated to BugMeNot.com in any way!",
     "homepage_url": "https://github.com/vantezzen/dontbugme",
