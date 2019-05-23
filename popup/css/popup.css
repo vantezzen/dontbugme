@@ -9,7 +9,8 @@
  */
  
 html, body {
-    width: 100%;
+    width: 400px;
+    min-height: 400px;
     margin-bottom: 10px;
     background-color: #2e2b30;
     color: #FFF;
