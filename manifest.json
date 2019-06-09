@@ -1,7 +1,7 @@
 {
     "manifest_version": 2,
     "name": "DontBugMe",
-    "version": "1.6",
+    "version": "1.7",
 
     "description": "DontBugMe allows you to easily use credentials from BugMeNot.com on any page.",
     "homepage_url": "https://github.com/vantezzen/dontbugme",
@@ -20,5 +20,23 @@
         "default_icon": "icons/icon-32.png",
         "default_title": "DontBugMe",
         "default_popup": "popup/popup.html"
-    }
+    },
+
+    "content_scripts": [
+        {
+          "all_frames": true,
+          "js": [
+            "content/autofill.js"
+          ],
+          "css": [
+            "content/autofill.css"
+          ],
+          "matches": [
+            "http://*/*",
+            "https://*/*",
+            "file:///*"
+          ],
+          "run_at": "document_start"
+        }
+    ]
 }

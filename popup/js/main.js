@@ -7,6 +7,8 @@
  * @link        https://github.com/vantezzen/dontbugme
  * @license     https://opensource.org/licenses/mit-license.php MIT License
  */
+let currentTab;
+
 // If autosubmit is enabled, check the checkbox
 if (localStorage.getItem('autosubmit') == 'yes') {
     document.getElementById('autosubmit').checked = true;
@@ -35,6 +37,8 @@ const getTabDomain = (tab) => {
 chrome.tabs.query({currentWindow: true, active: true}, tabs => {
     // Get domain of current tab
     const domain = getTabDomain(tabs[0]);
+
+    currentTab = tabs[0];
 
     // Get logins for the current domain
     getLogins(domain);
@@ -93,35 +97,22 @@ const getLogins = (domain) => {
 
             // Add click listener to element
             element.addEventListener('click', () => {
-                // Insert username and password into tab
-                // Try to find username input
-                executeInTab("document.querySelector('input[name=email]').value = '" + user + "';");
-                executeInTab("document.querySelector('input[name=mail]').value = '" + user + "';");
-                executeInTab("document.querySelector('input[name=user]').value = '" + user + "';");
-                executeInTab("document.querySelector('input[name=username]').value = '" + user + "';");
-                executeInTab("document.querySelector('input[id=email]').value = '" + user + "';");
-                executeInTab("document.querySelector('input[id=mail]').value = '" + user + "';");
-                executeInTab("document.querySelector('input[id=user]').value = '" + user + "';");
-                executeInTab("document.querySelector('input[id=username]').value = '" + user + "';");
-                executeInTab("document.querySelector('input[type=text]').value = '" + user + "';");
-
-                executeInTab("document.querySelector('input[type=password]').value = '" + pass + "';");
-
-                // Submit if autosubmit is on
+                // Send credentials to content script to autofill
+                chrome.tabs.sendMessage(currentTab.id, {
+                    command: 'fill',
+                    user,
+                    password: pass,
+                    autosubmit: localStorage.getItem('autosubmit') == 'yes'
+                });
+                
                 if (localStorage.getItem('autosubmit') == 'yes') {
-                    // Get form of username box and submit it
-                    executeInTab("document.querySelector('input[type=password]').form.submit()");
-
-                    // Close window as saved page is invalid from now
+                    // Close window if autosubmitting
                     window.close();
                 }
             });
 
             // Append new element to logins list
             document.getElementById('logins').append(element);
-
-            // Log username and password for debugging purposes
-            console.debug(user, pass);
         }
     }).catch(console.error);
 }
