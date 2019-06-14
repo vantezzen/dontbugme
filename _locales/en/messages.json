@@ -1,0 +1,32 @@
+{
+  "extensionName": {
+    "message": "DontBugMe",
+    "description": "Name of the extension."
+  },
+
+  "extensionDescription": {
+    "message": "DontBugMe allows you to easily use credentials from BugMeNot.com on any page.",
+    "description": "Description of the extension."
+  },
+
+
+  "popupNoAccounts": {
+    "message": "It looks like there are no logins availible for this page.",
+    "description": "Message shown, when no credentials are availible"
+  },
+
+  "popupInfo": {
+    "message": "Click any result to fill it into the page.",
+    "description": "Info message in popup."
+  },
+
+  "popupAutoSubmit": {
+    "message": "Automatically submit",
+    "description": "Checkbox in popup to enable auto-submitting"
+  },
+
+  "popupProvidedBy": {
+    "message": "Results provided by BugMeNot.com. This extension is not affiliated with BugMeNot.",
+    "description": "Text in popup about BugMeNot."
+  }
+}

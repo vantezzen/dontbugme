@@ -1,14 +1,15 @@
 {
     "manifest_version": 2,
-    "name": "DontBugMe",
-    "version": "1.7",
+    "name": "__MSG_extensionName__",
+    "version": "1.8",
 
-    "description": "DontBugMe allows you to easily use credentials from BugMeNot.com on any page.",
+    "description": "__MSG_extensionDescription__",
     "homepage_url": "https://github.com/vantezzen/dontbugme",
     "icons": {
         "32": "icons/icon-32.png",
         "48": "icons/icon-48.png"
     },
+    "default_locale": "en",
 
     "permissions": [
         "activeTab",

@@ -16,11 +16,18 @@
     <div class="container">
         <ul class="logins list-group" id="logins"></ul>
 
-        <p>Click any result to fill it into the page</p>
+        <hr class="seperator" />
 
-        <input type="checkbox" name="autosubmit" id="autosubmit"> Automatically submit
+        <input type="checkbox" name="autosubmit" id="autosubmit"> <span data-i18n="popupAutoSubmit"></span>
 
-        <p>Results provided by <a href="http://bugmenot.com">BugMeNot</a>. This extension is not affiliated with BugMeNot.</p>
+        <!-- Extension info -->
+        <div class="small-text">
+            <p data-i18n="popupInfo"></p>
+            <p data-i18n="popupProvidedBy"></p>
+            <p>
+                Help us translate DontBugMe into your language by <a href="https://github.com/vantezzen/dontbugme/issues/new?assignees=&labels=&template=provide-translation.md&title=%5BTranslation%5D+LANGUAGE">providing us your translations.</a>
+            </p>
+        </div>
     </div>
 
     <script src="js/color.js"></script>

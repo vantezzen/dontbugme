@@ -1,0 +1,32 @@
+{
+  "extensionName": {
+    "message": "DontBugMe",
+    "description": "Name of the extension."
+  },
+
+  "extensionDescription": {
+    "message": "Mit DontBugMe kannst du BugMeNot Nutzerdaten ganz einfach auf jeder Webseite benutzen.",
+    "description": "Description of the extension."
+  },
+
+
+  "popupNoAccounts": {
+    "message": "Für diese Webseite sind leider keine Nutzerdaten vorhanden.",
+    "description": "Message shown, when no credentials are availible"
+  },
+
+  "popupInfo": {
+    "message": "Klicke auf ein Ergebnis, um es automatisch in die Seite einzufügen.",
+    "description": "Info message in popup."
+  },
+
+  "popupAutoSubmit": {
+    "message": "Login automatisch abschicken",
+    "description": "Checkbox in popup to enable auto-submitting"
+  },
+
+  "popupProvidedBy": {
+    "message": "Ergebnisse von BugMeNot.com. Diese Erweiterung ist nicht von BugMeNot entwickelt.",
+    "description": "Text in popup about BugMeNot."
+  }
+}

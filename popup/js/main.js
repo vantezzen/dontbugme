@@ -9,6 +9,17 @@
  */
 let currentTab;
 
+// Handle i18n strings in page
+const elementsWithI18n = document.querySelectorAll('[data-i18n]');
+
+for (const element of elementsWithI18n) {
+    const string = element.dataset['i18n'];
+    const translation = chrome.i18n.getMessage(string);
+
+    element.innerText = translation;
+}
+
+
 // If autosubmit is enabled, check the checkbox
 if (localStorage.getItem('autosubmit') == 'yes') {
     document.getElementById('autosubmit').checked = true;
@@ -60,7 +71,7 @@ const getLogins = (domain) => {
 
         // Check if there are accounts
         if (page.getElementsByClassName('account').length == 0) {
-            document.getElementById('logins').innerText = 'It looks like there are no availible logins for this page.';
+            document.getElementById('logins').innerText = chrome.i18n.getMessage('popupNoAccounts');
         } else {
             // Clear logins list
             document.getElementById('logins').innerHTML = '';
