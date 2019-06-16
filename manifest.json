@@ -39,5 +39,12 @@
           ],
           "run_at": "document_start"
         }
-    ]
+    ],
+
+    "background": {
+      "scripts":[
+        "shared/main.js",
+        "background/main.js"
+      ]
+    }
 }

@@ -19,7 +19,6 @@ for (const element of elementsWithI18n) {
     element.innerText = translation;
 }
 
-
 // If autosubmit is enabled, check the checkbox
 if (localStorage.getItem('autosubmit') == 'yes') {
     document.getElementById('autosubmit').checked = true;
@@ -34,20 +33,10 @@ document.getElementById('autosubmit').addEventListener('click', () => {
     }
 });
 
-// Get the domain of the current tab
-const getTabDomain = (tab) => {
-    // Get the full domain name (e.g. sub.domain.example.com)
-    let fullUrl = tab.url.match(/:\/\/(.[^/]+)/)[1];
-
-    // Get the main domain (e.g. example.com)
-    let split = fullUrl.split('.');
-    return split[split.length - 2] + '.' + split[split.length - 1];
-}
-
 // Query for current open tab
 chrome.tabs.query({currentWindow: true, active: true}, tabs => {
     // Get domain of current tab
-    const domain = getTabDomain(tabs[0]);
+    const domain = getUrlDomain(tabs[0].url);
 
     currentTab = tabs[0];
 
