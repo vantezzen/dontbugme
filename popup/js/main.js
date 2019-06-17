@@ -57,6 +57,25 @@ chrome.tabs.query({currentWindow: true, active: true}, tabs => {
     getLogins(domain);
 });
 
+// Show a random message in the info field
+const infos = [
+    'Help us translate DontBugMe into your language by <a href="#" data-to="https://github.com/vantezzen/dontbugme/issues/new?assignees=&labels=&template=provide-translation.md&title=%5BTranslation%5D+LANGUAGE">providing us your translations.</a>',
+    'Do you like DontBugMe? Please recommend it to your friends!',
+    'If you like DontBugMe, please consider <a href="#" data-to="https://dontbugme.vantezzen.io/rate.html">rating us in the extension store</a>.'
+]
+document.getElementById('info').innerHTML = infos[Math.floor(Math.random() * infos.length)];
+
+// Make link in info text work
+const linkInInfo = document.getElementById('info').querySelector('a');
+if (linkInInfo) {
+    linkInInfo.addEventListener('click', evt => {
+        const link = evt.target.dataset.to;
+
+        const win = window.open(link, '_blank');
+        win.focus();
+    })
+}
+
 // Get logins for current tab
 const getLogins = (domain) => {
     // Reset logins list on page
