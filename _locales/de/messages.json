@@ -25,6 +25,11 @@
     "description": "Checkbox in popup to enable auto-submitting"
   },
 
+  "popupShowBadge": {
+    "message": "Automatisch nach verfügbaren Accounts suchen und als Plakette zeigen",
+    "description": "Checkbox in popup to enable badge"
+  },
+
   "popupProvidedBy": {
     "message": "Ergebnisse von BugMeNot.com. Diese Erweiterung ist nicht von BugMeNot entwickelt.",
     "description": "Text in popup about BugMeNot."

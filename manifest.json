@@ -14,7 +14,8 @@
     "permissions": [
         "activeTab",
         "tabs",
-        "http://bugmenot.com/view/*"
+        "http://bugmenot.com/view/*",
+        "storage"
     ],
 
     "browser_action": {

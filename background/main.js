@@ -31,32 +31,37 @@ const updateAvailibleCredentials = (url) => {
     return;
   }
 
-  const domain = getUrlDomain(url);
+  // Dont get info when badge is disabled
+  chrome.storage.local.get(["badge"], result => {
+    if (result.badge !== false) {
+      const domain = getUrlDomain(url);
 
-  // Use cached value if availible
-  if (accountsForDomain[domain]) {
-    chrome.browserAction.setBadgeText({
-      text: accountsForDomain[domain] === 0 ? '' : String(accountsForDomain[domain])
-    })
-    return;
-  }
+      // Use cached value if availible
+      if (accountsForDomain[domain]) {
+        chrome.browserAction.setBadgeText({
+          text: accountsForDomain[domain] === 0 ? '' : String(accountsForDomain[domain])
+        })
+        return;
+      }
 
-  // Get number of accounts from BugMeNot
-  fetch('http://bugmenot.com/view/' + domain)
-    .then(data => data.text())
-    .then(data => {
-      // Turn response into html element
-      let page = document.createElement('div');
-      page.innerHTML = data;
-      page = page.querySelector('#content');
+      // Get number of accounts from BugMeNot
+      fetch('http://bugmenot.com/view/' + domain)
+        .then(data => data.text())
+        .then(data => {
+          // Turn response into html element
+          let page = document.createElement('div');
+          page.innerHTML = data;
+          page = page.querySelector('#content');
 
-      // Count number of accounts
-      const accounts = page.getElementsByClassName('account').length;
+          // Count number of accounts
+          const accounts = page.getElementsByClassName('account').length;
 
-      // Cache result and set badge
-      accountsForDomain[domain] = accounts;
-      chrome.browserAction.setBadgeText({
-        text: accounts === 0 ? '' : String(accounts)
-      })
-    });
+          // Cache result and set badge
+          accountsForDomain[domain] = accounts;
+          chrome.browserAction.setBadgeText({
+            text: accounts === 0 ? '' : String(accounts)
+          })
+        });
+    }
+  });
 }

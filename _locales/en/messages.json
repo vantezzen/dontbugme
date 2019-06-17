@@ -25,6 +25,11 @@
     "description": "Checkbox in popup to enable auto-submitting"
   },
 
+  "popupShowBadge": {
+    "message": "Automatically check for availible accounts and show badge",
+    "description": "Checkbox in popup to enable badge"
+  },
+
   "popupProvidedBy": {
     "message": "Results provided by BugMeNot.com. This extension is not affiliated with BugMeNot.",
     "description": "Text in popup about BugMeNot."

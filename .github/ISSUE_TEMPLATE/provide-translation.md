@@ -33,6 +33,9 @@ Language: YOUR LANGUAGE HERE
 
 => "YOUR TRANSLATION HERE"
 
+"Automatically check for availible accounts and show badge"
+
+=> "YOUR TRANSLATION HERE"
 
 "Results provided by BugMeNot.com. This extension is not affiliated with BugMeNot."
 

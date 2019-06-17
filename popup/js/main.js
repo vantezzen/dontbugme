@@ -33,6 +33,19 @@ document.getElementById('autosubmit').addEventListener('click', () => {
     }
 });
 
+// Restore current choice of checking availible accounts
+chrome.storage.local.get(['badge'], result => {
+    if (result.badge !== false) {
+        document.getElementById('badge').checked = true;
+    }
+});
+// Update storage on setting change
+document.getElementById('badge').addEventListener('click', () => {
+    chrome.storage.local.set({
+        badge: document.getElementById('badge').checked
+    });
+});
+
 // Query for current open tab
 chrome.tabs.query({currentWindow: true, active: true}, tabs => {
     // Get domain of current tab
