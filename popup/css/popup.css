@@ -7,7 +7,7 @@
  * @link        https://github.com/vantezzen/dontbugme
  * @license     https://opensource.org/licenses/mit-license.php MIT License
  */
- 
+/* General */
 html, body {
     width: 400px;
     min-height: 400px;
@@ -16,6 +16,27 @@ html, body {
     color: #FFF;
 }
 
+.bigger-text {
+    font-size: 1.2rem;
+}
+
+.small-text {
+    font-size: 0.7rem;
+    color: #979797;
+}
+
+.hidden {
+    display: none;
+}
+
+/* Alerts */
+.alert {
+    color: #FFF;
+    background-color: #443e47;
+    border: 0;
+}
+
+/* Texts */
 p {
     margin-bottom: 0.3rem;
 }
@@ -34,6 +55,7 @@ p {
     margin-top: 10px;
 }
 
+/* Login list */
 .logins, input[type="checkbox"] {
     margin-bottom: 10px;
 }
@@ -61,19 +83,7 @@ p {
     border-radius: 100%;
 }
 
-.bigger-text {
-    font-size: 1.2rem;
-}
-
-.small-text {
-    font-size: 0.7rem;
-    color: #979797;
-}
-
+/* Seperator */
 .seperator {
     background-color: #cccccc;
-}
-
-#bugmenot {
-    display: none;
 }
