@@ -47,5 +47,11 @@
         "shared/main.js",
         "background/main.js"
       ]
+    },
+
+    "browser_specific_settings": {
+      "gecko": {
+        "id": "dontbugme@vantezzen.io"
+      }
     }
 }

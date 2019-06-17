@@ -9,23 +9,38 @@
 // Cache for number of accounts
 let accountsForDomain = {};
 
+const isChrome = !window.hasOwnProperty('browser');
+const platform = isChrome ? chrome : browser;
+
 // Update badge when changing tab or page
-chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
+platform.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
   // Only update on loading
-  if (changeInfo === 'loading') {
+  console.log(changeInfo);
+  if (changeInfo.status === 'loading') {
     updateAvailibleCredentials(tab.url);
   }
 });
-chrome.tabs.onActiveChanged.addListener(function(tabId) {
-  chrome.tabs.get(tabId, (tab) => {
-    updateAvailibleCredentials(tab.url);
+
+if (isChrome) {
+  chrome.tabs.onActiveChanged.addListener(tabId => {
+    chrome.tabs.get(tabId, (tab) => {
+      updateAvailibleCredentials(tab.url);
+    })
+  });
+} else {
+  browser.tabs.onActivated.addListener(activeInfo => {
+    browser.tabs.get(activeInfo.tabId)
+    .then(tab => {
+      updateAvailibleCredentials(tab.url);
+    });
   })
-});
+}
+
 
 const updateAvailibleCredentials = (url) => {
   // Dont get info on internal pages
-  if (/(chrome|about):\/\/.*/.test(url)) {
-    chrome.browserAction.setBadgeText({
+  if (/(chrome|about):\/\/.*/.test(url) || /about:.*/.test(url)) {
+    platform.browserAction.setBadgeText({
       text: ''
     })
     return;
@@ -38,11 +53,16 @@ const updateAvailibleCredentials = (url) => {
 
       // Use cached value if availible
       if (accountsForDomain[domain]) {
-        chrome.browserAction.setBadgeText({
+        platform.browserAction.setBadgeText({
           text: accountsForDomain[domain] === 0 ? '' : String(accountsForDomain[domain])
         })
         return;
       }
+
+      // Needing to get information from BugMeNot - clear temporarily
+      platform.browserAction.setBadgeText({
+        text: ''
+      })
 
       // Get number of accounts from BugMeNot
       fetch('http://bugmenot.com/view/' + domain)
@@ -58,7 +78,7 @@ const updateAvailibleCredentials = (url) => {
 
           // Cache result and set badge
           accountsForDomain[domain] = accounts;
-          chrome.browserAction.setBadgeText({
+          platform.browserAction.setBadgeText({
             text: accounts === 0 ? '' : String(accounts)
           })
         });
