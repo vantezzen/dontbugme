@@ -15,7 +15,6 @@ const platform = isChrome ? chrome : browser;
 // Update badge when changing tab or page
 platform.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
   // Only update on loading
-  console.log(changeInfo);
   if (changeInfo.status === 'loading') {
     updateAvailibleCredentials(tab.url);
   }

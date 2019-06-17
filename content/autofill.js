@@ -66,6 +66,7 @@
         document.querySelector('input[type=password]').form.submit()
       }
 
+      sendResponse(true);
       return true;
     }
   });

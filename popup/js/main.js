@@ -129,13 +129,29 @@ const getLogins = (domain) => {
 
             // Add click listener to element
             element.addEventListener('click', () => {
+                // Set timeout if no content script availible
+                const noConnectionTimeout = setTimeout(() => {
+                    // Show alert
+                    document.getElementById('could-not-connect').style.display = 'block';
+                }, 100);
+
                 // Send credentials to content script to autofill
                 chrome.tabs.sendMessage(currentTab.id, {
                     command: 'fill',
                     user,
                     password: pass,
                     autosubmit: localStorage.getItem('autosubmit') == 'yes'
+                }, response => {
+                    // Check if chrome threw connection error
+                    const error = chrome.runtime.lastError;
+
+                    if (!error || error.message !== 'Could not establish connection. Receiving end does not exist.') {
+                        // Connection confirmed - clear no connection timeout
+                        clearTimeout(noConnectionTimeout);
+                    }
+                    
                 });
+                
                 
                 if (localStorage.getItem('autosubmit') == 'yes') {
                     // Close window if autosubmitting
@@ -147,11 +163,4 @@ const getLogins = (domain) => {
             document.getElementById('logins').append(element);
         }
     }).catch(console.error);
-}
-
-// Execute JavaScript code in current open tab
-function executeInTab(code) {
-    chrome.tabs.executeScript({
-        code
-    });
 }
