@@ -47,7 +47,7 @@ const updateAvailibleCredentials = (url) => {
 
   // Dont get info when badge is disabled
   chrome.storage.local.get(["badge"], result => {
-    if (result.badge !== false) {
+    if (result.badge === true) {
       const domain = getUrlDomain(url);
 
       // Use cached value if availible

@@ -35,7 +35,7 @@ document.getElementById('autosubmit').addEventListener('click', () => {
 
 // Restore current choice of checking availible accounts
 chrome.storage.local.get(['badge'], result => {
-    if (result.badge !== false) {
+    if (result.badge === true) {
         document.getElementById('badge').checked = true;
     }
 });
