@@ -9,10 +9,8 @@
 
  // Get the domain of the current tab
 const getUrlDomain = (url) => {
-  // Get the full domain name (e.g. sub.domain.example.com)
-  let fullUrl = url.match(/:\/\/(.[^/]+)/)[1];
+  const host = (new URL(url)).host;
+  const tld = host.split(/\./).slice(-2).join('.');
 
-  // Get the main domain (e.g. example.com)
-  let split = fullUrl.split('.');
-  return split[split.length - 2] + '.' + split[split.length - 1];
+  return tld;
 }

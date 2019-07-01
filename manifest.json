@@ -13,7 +13,6 @@
 
     "permissions": [
         "activeTab",
-        "tabs",
         "http://bugmenot.com/view/*",
         "storage"
     ],
