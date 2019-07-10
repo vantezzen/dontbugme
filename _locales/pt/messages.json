@@ -1,0 +1,37 @@
+{
+  "extensionName": {
+    "message": "DontBugMe",
+    "description": "Name of the extension."
+  },
+
+  "extensionDescription": {
+    "message": "DontBugMe facilita a utilização de credenciais do BugMeNot.com em qualquer página.",
+    "description": "Description of the extension."
+  },
+
+
+  "popupNoAccounts": {
+    "message": "Aparentemente não há contas disponíveis para esta página.",
+    "description": "Message shown, when no credentials are availible"
+  },
+
+  "popupInfo": {
+    "message": "Clique em qualquer resultado para o preencher na página.",
+    "description": "Info message in popup."
+  },
+
+  "popupAutoSubmit": {
+    "message": "Submeter automaticamente",
+    "description": "Checkbox in popup to enable auto-submitting"
+  },
+
+  "popupShowBadge": {
+    "message": "Verificar automaticamente por contas disponíveis e mostrar sinalização",
+    "description": "Checkbox in popup to enable badge"
+  },
+
+  "popupProvidedBy": {
+    "message": "Resultados fornecidos por BugMeNot.com. Esta extensão não tem qualquer tipo de filiação com o BugMeNot.",
+    "description": "Text in popup about BugMeNot."
+  }
+}
