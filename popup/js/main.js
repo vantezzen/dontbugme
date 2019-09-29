@@ -65,6 +65,19 @@ const infos = [
 ]
 document.getElementById('info').innerHTML = infos[Math.floor(Math.random() * infos.length)];
 
+// Listen for clicks on the "Open BugMeNot page for current domain" button
+document.getElementById('openBugmenot').addEventListener('click', () => {
+    // Get domain of current tab
+    const domain = getUrlDomain(currentTab.url);
+
+    // Get domain to BugMeNot
+    const url = 'http://bugmenot.com/view/' + domain;
+
+    // Open new tab
+    const win = window.open(url, '_blank');
+    win.focus();
+})
+
 // Make link in info text work
 const linkInInfo = document.getElementById('info').querySelector('a');
 if (linkInInfo) {

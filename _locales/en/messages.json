@@ -20,6 +20,11 @@
     "description": "Info message in popup."
   },
 
+  "openBugMeNot": {
+    "message": "Open BugMeNot page for current domain",
+    "description": "Button in popup to open BugMeNot"
+  },
+
   "popupAutoSubmit": {
     "message": "Automatically submit",
     "description": "Checkbox in popup to enable auto-submitting"
