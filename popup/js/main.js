@@ -119,6 +119,13 @@ const getLogins = (domain) => {
             const kbd = el.querySelectorAll('kbd');
             const user = kbd[0].innerText;
             const pass = kbd[1].innerText;
+            const other = (typeof kbd[2] !== 'undefined' ? kbd[2].innerText : '');
+
+            // If BugMeNot provides an "Other" field, display it
+            var otherElement = "";
+            if (other.length) {
+            	var otherElement = `<br /><kbd>${other}</kbd>`;
+            }
 
             // Get success rate
             const successString = el.querySelector('.success_rate').innerText;
@@ -136,6 +143,7 @@ const getLogins = (domain) => {
                     <div class="col-10 login-container">
                         <kbd>${user}</kbd><br />
                         <kbd>${pass}</kbd>
+                        ${otherElement}
                     </div>
                 </div>
             `;
@@ -153,6 +161,7 @@ const getLogins = (domain) => {
                     command: 'fill',
                     user,
                     password: pass,
+                    other: other,
                     autosubmit: localStorage.getItem('autosubmit') == 'yes'
                 }, response => {
                     // Check if chrome threw connection error
