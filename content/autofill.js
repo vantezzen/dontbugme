@@ -20,20 +20,25 @@
 
   const possibleUsernameInput = [
     'input[type=text]',
-    'input[name=email]',
-    'input[name=mail]',
     'input[name=user]',
     'input[name=username]',
-    'input[id=email]',
-    'input[id=mail]',
     'input[id=user]',
-    'input[id=username]',
+    'input[id=username]'
+  ]
+  const possibleEmailInput = [
+    'input[type=email]',
+    'input[name=email]',
+    'input[name=mail]',
+    'input[id=email]',
+    'input[id=user_email]',
+    'input[id=mail]'
   ]
   const possiblePasswordInput = [
     'input[type=password]',
     'input[name=password]',
     'input[name=pass]',
     'input[id=password]',
+    'input[id=user_password]',
     'input[id=pass]',
     'input[placeholder~=Password]',
     'input[placeholder~=Passwort]',
@@ -51,7 +56,7 @@
     if (msg.command === 'fill') {
       console.debug('%c[DontBugMe] Autofilling credentials', 'color: #636363;', msg);
 
-      const { user, password, autosubmit } = msg;
+      const { user, password, other, autosubmit } = msg;
 
       // Autofill credentials
       for(const selector of possibleUsernameInput) {
@@ -59,6 +64,9 @@
       }
       for(const selector of possiblePasswordInput) {
         insertToField(selector, password);
+      }
+      for(const selector of possibleEmailInput) {
+        insertToField(selector, other);
       }
 
       // Try to autosubmit
