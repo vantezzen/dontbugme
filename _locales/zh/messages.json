@@ -1,0 +1,42 @@
+{
+  "extensionName": {
+    "message": "DontBugMe",
+    "description": "Name of the extension."
+  },
+
+  "extensionDescription": {
+    "message": "DontBugMe 能帮你在任何页面上轻松地使用BugMeNot.com上提供的登录凭证。",
+    "description": "Description of the extension."
+  },
+
+
+  "popupNoAccounts": {
+    "message": "有时候有些页面看起来似乎没有可用的登录信息。",
+    "description": "Message shown, when no credentials are availible"
+  },
+
+  "popupInfo": {
+    "message": "单击其中任一结果，将其填写到页面中。",
+    "description": "Info message in popup."
+  },
+
+  "openBugMeNot": {
+    "message": "Open BugMeNot page for current domain",
+    "description": "Button in popup to open BugMeNot"
+  },
+
+  "popupAutoSubmit": {
+    "message": "它就会自动发送。",
+    "description": "Checkbox in popup to enable auto-submitting"
+  },
+
+  "popupShowBadge": {
+    "message": "自动检查可用的账号并将其显示出来",
+    "description": "Checkbox in popup to enable badge"
+  },
+
+  "popupProvidedBy": {
+    "message": "登录结果由BugMeNot.com提供，但此扩展不属于BugMeNot",
+    "description": "Text in popup about BugMeNot."
+  }
+}
