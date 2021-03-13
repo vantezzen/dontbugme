@@ -9,10 +9,9 @@
     "description": "Description of the extension."
   },
 
-
   "popupNoAccounts": {
     "message": "Aparentemente não há contas disponíveis para esta página.",
-    "description": "Message shown, when no credentials are availible"
+    "description": "Message shown, when no credentials are available"
   },
 
   "popupInfo": {

@@ -9,10 +9,9 @@
     "description": "Description of the extension."
   },
 
-
   "popupNoAccounts": {
     "message": "It looks like there are no logins available for this page.",
-    "description": "Message shown, when no credentials are availible"
+    "description": "Message shown, when no credentials are available"
   },
 
   "popupInfo": {

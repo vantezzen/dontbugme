@@ -9,10 +9,9 @@
     "description": "Description of the extension."
   },
 
-
   "popupNoAccounts": {
     "message": "有时候有些页面看起来似乎没有可用的登录信息。",
-    "description": "Message shown, when no credentials are availible"
+    "description": "Message shown, when no credentials are available"
   },
 
   "popupInfo": {
