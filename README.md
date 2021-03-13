@@ -29,6 +29,10 @@ Please fork this repository and create a new pull request to contribute to it.
 
 If you notice any errors, please create a new issue on GitHub.
 
+## Acknowledgements
+
+This project uses the [Public Suffix List](https://publicsuffix.org/list/public_suffix_list.dat) for URL filtering which is licensed under the [Mozilla Public License v2.0](https://mozilla.org/MPL/2.0/).
+
 ## Disclaimer
 This extension is not affiliated with BugMeNot. It is developed completely independentely.
 
