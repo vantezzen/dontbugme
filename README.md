@@ -6,6 +6,9 @@
     <a href="https://chrome.google.com/webstore/detail/dontbugme/mknlnngolpglmlcadgdmlaokbfgppmma">
         <img src="icons/chrome.png" alt="Availible on chrome web store" width="150">
     </a>
+    <a href="https://microsoftedge.microsoft.com/addons/detail/dontbugme/fdgmjcnekkpdnoplmkljagijndpddnjb">
+        <img src="icons/edge.png" alt="Availible on Edge Add-ons" width="150">
+    </a>
     <a href="https://www.buymeacoffee.com/vantezzen" target="_blank">
         <img src="icons/bmc.png" alt="Buy Me A Coffee" width="150">
     </a>
