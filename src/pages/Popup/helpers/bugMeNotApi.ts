@@ -1,5 +1,5 @@
 import { Account } from "../../../types";
-import { hasCache, readCache, writeCache } from "./Cache";
+import { hasCache, readCache, writeCache } from "./cache";
 
 /**
  * Retrieves the accounts for a domain from BugMeNot.
@@ -63,3 +63,23 @@ const getAccountsForDomain = async (domain : string) : Promise<Account[] | false
 }
 
 export default getAccountsForDomain;
+
+/**
+ * Vote for an account on BugMeNot to tell others if credentials are valid.
+ * This will automatically save that a vote has been cast to prevent duplicate votes.
+ */
+export const voteForAccount = async (account : Account, didWork : boolean) => {
+  if (localStorage[`voted-${account.id}-${account.site}`] === 'yes') {
+    // Ignore duplicate votes
+    return;
+  }
+
+  await fetch('http://bugmenot.com/vote.php', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    body: `site=${account.site}&account=${account.id}&vote=${didWork ? 'Y' : 'N'}`,
+  })
+  localStorage[`voted-${account.id}-${account.site}`] = "yes";
+}

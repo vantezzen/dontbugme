@@ -1,6 +1,6 @@
 import React from 'react';
 import { useEffect } from 'react';
-import { Frown, Loader } from 'react-feather';
+import { Frown, Loader, Plus } from 'react-feather';
 import { ToastContainer, Slide } from 'react-toastify';
 import { Account } from '../../types';
 import AccountsList from './components/AccountsList';
@@ -8,126 +8,198 @@ import Footer from './components/Footer';
 import Header from './components/Header';
 import { getCurrentDomain, getPossibleDomains } from './helpers/browser';
 import getAccountsForDomain from './helpers/bugMeNotApi';
+import verifyLicense from './helpers/license';
 
 import './Popup.css';
 import 'react-toastify/dist/ReactToastify.min.css';
+import PlusInfo from './components/PlusInfo';
 
-const Popup = () => {
-  const [isLoading, setIsLoading] = React.useState(false);
-  const [accounts, setAccounts] = React.useState<Account[] | false>(false);
+type PopupState = {
+  accounts: Account[] | false,
 
-  const [fullDomain, setFullDomain] = React.useState<string | false>(false);
-  const [domain, setDomain] = React.useState<string | false>(false);
+  domain: string | false,
+  fullDomain: string | false,
 
-  // Get current tab domain once
-  useEffect(() => {
-    getCurrentDomain().then(domain => {
-      console.log(`Got tab domain ${domain}`);
-      setFullDomain(domain);
-      setDomain(domain);
-    });
-  }, []);
-  
-  // Get accounts everytime the domain changes
-  useEffect(() => {
-    console.log('DD', domain);
-    if (domain) {
-      console.log(`Fetching accounts for ${domain}`);
-      setIsLoading(true);
+  isLoading: boolean,
+  isPlus: boolean,
+  showPlusPopup: boolean,
+}
 
-      getAccountsForDomain(domain).then((accounts) => {
-        setIsLoading(false);
-        setAccounts(accounts);
+export default class Popup extends React.Component {
+  state = {
+    accounts: [],
+    
+    domain: '',
+    fullDomain: '',
 
-        if (accounts) {
-          window.plausible('fetch_success');
-        } else {
-          window.plausible('fetch_fail');
-        }
-      });
-    } else {
-      setIsLoading(false);
-    }
-  }, [domain]);
-
-  let mainContent;
-  if (isLoading) {
-    // Loading Screen
-    mainContent = (
-      <div className="p-5 text-brand-text-2 font-bold flex flex-col items-center mt-5">
-        <Loader className="animate-spin h-10" size={30} />
-        <h2 className="text-sm mt-2">
-          Loading accounts...
-        </h2>
-      </div>
-    );
-  } else if (!domain || !fullDomain) {
-    // Incompatible domain (e.g. Chrome-internal pages)
-    mainContent = (
-      <div className="text-center mt-5 text-brand-text-2 flex flex-col items-center">
-        <Frown className="h-10" size={30} />
-        <h2 className="text-brand-text-1 font-bold mt-3">
-          Incompatible Domain
-        </h2>
-        <p className="text-sm mt-3">
-          DontBugMe is not compatible with your current page
-        </p>
-      </div>
-    );
-  } else {
-    mainContent = (
-      <>
-        <div className="text-brand-text-2 font-semibold text-sm text-center mt-3">
-          Got {' '}
-          
-          {accounts ? accounts.length : 0}{' '}
-
-          accounts for{' '}
-
-          <select 
-            name="domain"
-            className="bg-brand-dark text-brand-text-1 font-bold"
-            onChange={(e) => setDomain(e.target.value)}
-            value={domain}
-          >
-            {getPossibleDomains(fullDomain).map((possibleDomain) => (
-              <option key={possibleDomain} value={possibleDomain}>
-                {possibleDomain}
-              </option>
-            ))}
-          </select>
-          :
-        </div>
-
-        {(typeof accounts === "object" && accounts.length > 0) ? (
-          <AccountsList accounts={accounts} />
-        ) : (
-          <div className="text-center mt-5 text-brand-text-2 flex flex-col items-center">
-            <Frown className="h-10" size={30} />
-            <h2 className="text-brand-text-1 font-bold mt-3">
-              No accounts found
-            </h2>
-            <p className="text-sm mt-3">
-              BugMeNot does not store any accounts for "{domain}"
-            </p>
-          </div>
-        )}
-      </>
-    );
+    isLoading: false,
+    isPlus: false,
+    showPlusPopup: false,
   }
 
-  return (
-    <div className="p-5">
-      <Header />
-      {mainContent}
-      <Footer />
-      <ToastContainer
-        position="bottom-center"
-        transition={Slide}
-        autoClose={2000}
-      />
-    </div>
-  );
-};
+  componentDidMount() {
+    // Get current tab domain once
+    getCurrentDomain().then(domain => {
+      console.log(`Got tab domain ${domain}`);
+      this.setState({
+        domain,
+        fullDomain: domain
+      });
+    });
 
-export default Popup;
+    this.checkPlusStatus();
+  }
+
+  componentDidUpdate(prevProps : {}, prevState : PopupState) {
+    // Get accounts everytime the domain changes
+    if (prevState.domain !== this.state.domain) {
+      const { domain } = this.state;
+      if (domain) {
+        console.log(`Fetching accounts for ${domain}`);
+        
+        this.setState({
+          isLoading: true,
+        });
+  
+        getAccountsForDomain(domain).then((accounts) => {
+          this.setState({
+            isLoading: false,
+            accounts,
+          });
+          
+          if (accounts) {
+            window.plausible('fetch_success');
+          } else {
+            window.plausible('fetch_fail');
+          }
+        });
+      } else {
+        this.setState({
+          isLoading: false,
+        });
+      }
+    }
+  }
+
+  async checkPlusStatus() {
+    const isValid = await verifyLicense();
+    this.setState({
+      isPlus: isValid,
+    });
+  }
+
+  render() {
+    const {
+      accounts,
+      domain,
+      fullDomain,
+      isLoading,
+      isPlus,
+      showPlusPopup,
+    } = this.state;
+
+    let mainContent;
+
+    let accountListItems = accounts;
+    let hiddenItems = 0;
+    if (!isPlus) {
+      accountListItems = accounts.slice(0, 2);
+      hiddenItems = accounts.length - accountListItems.length;
+    }
+
+    if (isLoading) {
+      // Loading Screen
+      mainContent = (
+        <div className="p-5 text-brand-text-2 font-bold flex flex-col items-center mt-5">
+          <Loader className="animate-spin h-10" size={30} />
+          <h2 className="text-sm mt-2">
+            Loading accounts...
+          </h2>
+        </div>
+      );
+    } else if (!domain || !fullDomain) {
+      // Incompatible domain (e.g. Chrome-internal pages)
+      mainContent = (
+        <div className="text-center mt-5 text-brand-text-2 flex flex-col items-center">
+          <Frown className="h-10" size={30} />
+          <h2 className="text-brand-text-1 font-bold mt-3">
+            Incompatible Domain
+          </h2>
+          <p className="text-sm mt-3">
+            DontBugMe is not compatible with your current page
+          </p>
+        </div>
+      );
+    } else {
+      mainContent = (
+        <>
+          <div className="text-brand-text-2 font-semibold text-sm text-center mt-3">
+            Got {' '}
+            
+            {accounts ? accounts.length : 0}{' '}
+
+            accounts for{' '}
+
+            <select 
+              name="domain"
+              className="bg-brand-dark text-brand-text-1 font-bold"
+              onChange={(e) => this.setState({ domain: e.target.value })}
+              value={domain}
+            >
+              {getPossibleDomains(fullDomain).map((possibleDomain) => (
+                <option key={possibleDomain} value={possibleDomain}>
+                  {possibleDomain}
+                </option>
+              ))}
+            </select>
+            :
+          </div>
+
+          {(typeof accounts === "object" && accounts.length > 0) ? (
+            <>
+              <AccountsList accounts={accountListItems} isPlus={isPlus} />
+              {hiddenItems > 0 && (
+                <button 
+                  className="bg-brand-card rounded flex justify-center items-center text-white p-4 my-4 w-full transform duration-300 hover:scale-105"
+                  onClick={async () => {
+                    this.setState({
+                      showPlusPopup: true,
+                    });
+                  }}
+                >
+                  <Plus className="mr-2" size={15} /> {hiddenItems} more
+                </button>
+              )}
+            </>
+          ) : (
+            <div className="text-center mt-5 text-brand-text-2 flex flex-col items-center">
+              <Frown className="h-10" size={30} />
+              <h2 className="text-brand-text-1 font-bold mt-3">
+                No accounts found
+              </h2>
+              <p className="text-sm mt-3">
+                BugMeNot does not store any accounts for "{domain}"
+              </p>
+            </div>
+          )}
+        </>
+      );
+    }
+
+    return (
+      <div className="p-5">
+        <Header />
+        {mainContent}
+        <Footer />
+
+        {showPlusPopup && <PlusInfo onClose={() => this.setState({ showPlusPopup: false })} triggerValidation={() => this.checkPlusStatus()} /> })
+
+        <ToastContainer
+          position="bottom-center"
+          transition={Slide}
+          autoClose={2000}
+        />
+      </div>
+    );
+  }
+}
