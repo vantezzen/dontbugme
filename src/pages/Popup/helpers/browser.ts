@@ -10,7 +10,11 @@ export const getCurrentDomain = async () : Promise<string | false> => {
   const tab = tabs[0];
   if (!tab.url) return false;
 
-  const fullDomain = new URL(tab.url).hostname;
+  const tabUrl = new URL(tab.url);
+  if (!['https:', 'http:'].includes(tabUrl.protocol)) {
+    return false;
+  }
+  const fullDomain = tabUrl.hostname;
 
   return fullDomain.replace(/^www\./, '');
 }

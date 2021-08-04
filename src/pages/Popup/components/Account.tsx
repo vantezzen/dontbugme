@@ -1,5 +1,6 @@
 import React from 'react';
 import { Key, User } from 'react-feather';
+import { toast } from 'react-toastify';
 import { Account } from '../../../types';
 import { autofillData } from '../helpers/autofill';
 import getSuccessRateColor from '../helpers/successRateColor';
@@ -32,7 +33,10 @@ const Account = ({ account } : { account: Account }) => (
       {/* Copy Username */}
       <button 
         className="text-brand-main"
-        onClick={() => navigator.clipboard.writeText(account.name)}
+        onClick={() => {
+          navigator.clipboard.writeText(account.name)
+          toast.dark("Username copied")
+        }}
         title="Copy username"
       >
         <User />
@@ -41,7 +45,10 @@ const Account = ({ account } : { account: Account }) => (
       {/* Copy Password */}
       <button 
         className="text-brand-main ml-3"
-        onClick={() => navigator.clipboard.writeText(account.password)}
+        onClick={() => {
+          navigator.clipboard.writeText(account.password)
+          toast.dark("Password copied")
+        }}
         title="Copy password"
       >
         <Key />

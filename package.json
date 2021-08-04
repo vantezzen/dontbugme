@@ -25,6 +25,7 @@
     "react-dom": "^17.0.1",
     "react-feather": "^2.0.9",
     "react-hot-loader": "^4.13.0",
+    "react-toastify": "^7.0.4",
     "react-transition-group": "^4.4.2",
     "webextension-polyfill-ts": "^0.26.0"
   },

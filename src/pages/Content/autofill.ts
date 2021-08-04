@@ -1,5 +1,10 @@
+/**
+ * DontBugMe Autofill
+ * Basic Autofill Script that tries to fill in the input fields of a login screen
+ */
 import { browser } from "webextension-polyfill-ts";
 
+// CSS selectors that hopefully give us the correct input elements
 const possibleUsernameInput = [
   'input[type=text]',
   'input[name=user]',
@@ -34,17 +39,65 @@ const possiblePasswordInput = [
   'input[placeholder~=Wachtwoord]',
 ]
 
-function insertToField(selector : string, value : string) {
-  const element = document.querySelector(selector) as HTMLInputElement;
+/**
+ * Create a full keyboard event containing charCode, keyCode etc.
+ */
+const createKeyboardEvent = (name : string, element : HTMLInputElement) => {
+  const ev = element.ownerDocument.createEvent('Events');
+  ev.initEvent(name, true, false);
 
-  if (!element) return;
-  element.value = value;
+  // @ts-ignore 2339
+  ev.charCode = 0;
+  // @ts-ignore 2339
+  ev.keyCode = 0;
+  // @ts-ignore 2339
+  ev.which = 0;
+  // @ts-ignore 2339
+  ev.srcElement = el;
+  // @ts-ignore 2339
+  ev.target = el;
 
-  // Animate input
-  element.classList.add('com-dontbugme-animated-fill');
-  setTimeout(() => {
-    element.classList.remove('com-dontbugme-animated-fill');
-  }, 200);
+  return ev;
+}
+
+/**
+ * Check if an element is visible and not hidden by CSS
+ */
+const isVisible = (element : HTMLElement) => {
+  return (
+    element.style.display !== 'none' &&
+    element.style.visibility !== 'hidden' &&
+    element.style.opacity !== '0'  
+  )
+};
+
+/**
+ * Insert a string into all elements that match a CSS selector
+ */
+function insertToFieldsWithSelector(selector : string, value : string) {
+  const elements = Array.from(document.querySelectorAll(selector));
+
+  for (const e of elements) {
+    const element = e as HTMLInputElement;
+
+    if (!isVisible(element)) continue;
+
+    // Pretend interaction with the element
+    element.click();
+    element.focus();
+    element.dispatchEvent(createKeyboardEvent('keydown', element));
+    element.dispatchEvent(createKeyboardEvent('keypress', element));
+    element.dispatchEvent(createKeyboardEvent('keyup', element));
+
+    element.value = value;
+
+    // Animate input
+    element.classList.add('com-dontbugme-animated-fill');
+    setTimeout(() => {
+      element.classList.remove('com-dontbugme-animated-fill');
+    }, 200);
+  }
+
 }
 
 browser.runtime.onMessage.addListener(async (msg, sender) => {
@@ -53,13 +106,13 @@ browser.runtime.onMessage.addListener(async (msg, sender) => {
 
     // Autofill credentials
     for(const selector of possibleUsernameInput) {
-      insertToField(selector, user);
+      insertToFieldsWithSelector(selector, user);
     }
     for(const selector of possiblePasswordInput) {
-      insertToField(selector, password);
+      insertToFieldsWithSelector(selector, password);
     }
     // for(const selector of possibleEmailInput) {
-    //   insertToField(selector, other);
+    //   insertToFieldsWithSelector(selector, other);
     // }
 
     return true;
