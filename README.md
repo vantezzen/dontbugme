@@ -1,4 +1,18 @@
-<img src="src/assets/img/icon-128.png" width="64"/>
+<p align="center">
+    <img src="src/assets/img/icon-128.png" height="100"><br /><br />
+    <a href="https://addons.mozilla.org/en-US/firefox/addon/dontbugme/">
+        <img src="icons/firefox.png" alt="Availible on Firefox Add-Ons" width="150">
+    </a>
+    <a href="https://chrome.google.com/webstore/detail/dontbugme/mknlnngolpglmlcadgdmlaokbfgppmma">
+        <img src="icons/chrome.png" alt="Availible on chrome web store" width="150">
+    </a>
+    <a href="https://microsoftedge.microsoft.com/addons/detail/dontbugme/fdgmjcnekkpdnoplmkljagijndpddnjb">
+        <img src="icons/edge.png" alt="Availible on Edge Add-ons" width="150">
+    </a>
+    <a href="https://www.buymeacoffee.com/vantezzen" target="_blank">
+        <img src="icons/bmc.png" alt="Buy Me A Coffee" width="150">
+    </a>
+</p>
 
 # DontBugMe
 
@@ -6,7 +20,7 @@ DontBugMe is a web browser extension that simplifies the usage of login credenti
 
 ## Installation
 
-DontBugMe is availible through the [Firefox Add-On Platform](https://addons.mozilla.org/en-US/firefox/addon/dontbugme/) and [chrome web store](https://chrome.google.com/webstore/detail/dontbugme/mknlnngolpglmlcadgdmlaokbfgppmma).
+DontBugMe is available through the [Firefox Add-On Platform](https://addons.mozilla.org/en-US/firefox/addon/dontbugme/) and [chrome web store](https://chrome.google.com/webstore/detail/dontbugme/mknlnngolpglmlcadgdmlaokbfgppmma).
 You can also install this extension on Firefox by downloading the source from GitHub and loading the unpacked extension through "about:debugging" as a "Temporary Add-On".
 
 ## Development
