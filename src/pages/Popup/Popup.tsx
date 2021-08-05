@@ -41,6 +41,8 @@ export default class Popup extends React.Component {
     // Get current tab domain once
     getCurrentDomain().then(domain => {
       console.log(`Got tab domain ${domain}`);
+
+      window.plausible('open', { props: { site: domain } });
       this.setState({
         domain,
         fullDomain: domain
