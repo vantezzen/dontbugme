@@ -90,6 +90,7 @@ const Account = ({ account, isPlus, showPlusPopup } : { account: Account, isPlus
         onClick={async () => {
           autofillData(account.name, account.password);
           displayVoteBox();
+          window.close();
         }}
       >
         

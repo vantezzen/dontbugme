@@ -192,9 +192,9 @@ export default class Popup extends React.Component {
       <div className="p-5">
         <Header />
         {mainContent}
-        <Footer />
+        <Footer isPlus={isPlus} openPlusPopup={() => this.setState({ showPlusPopup: true })} />
 
-        {showPlusPopup && <PlusInfo onClose={() => this.setState({ showPlusPopup: false })} triggerValidation={() => this.checkPlusStatus()} /> })
+        {showPlusPopup && <PlusInfo onClose={() => this.setState({ showPlusPopup: false })} triggerValidation={() => this.checkPlusStatus()} /> }
 
         <ToastContainer
           position="bottom-center"
