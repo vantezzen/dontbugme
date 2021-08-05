@@ -22,6 +22,20 @@ You can also install this extension on Firefox by downloading the source from Gi
    4. Select the `build` folder.
 8. Happy hacking.
 
+## Build
+
+To build DontBugMe with WebExtension Manifest v3, simply run
+```bash
+npm run build
+```
+
+As Firefox currently does not support Manifest v3, an alternative build with Manifest v2 can be created using
+```bash
+npm run build-manifest-v2
+```
+
+Please note that in the second case, the manifest version has to be manually updated.
+
 ## Contributing
 Please fork this repository and create a new pull request to contribute to it.
 

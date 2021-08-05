@@ -9,6 +9,7 @@
   },
   "scripts": {
     "build": "node utils/build.js",
+    "build-manifest-v2": "npm run build && cp src/manifest-v2.json build/manifest.json",
     "start": "node utils/webserver.js",
     "prettier": "prettier --write '**/*.{js,jsx,css,html}'"
   },

@@ -2,7 +2,7 @@ import { browser } from 'webextension-polyfill-ts';
 import { hasCache, writeCache } from './cache';
 
 /**
- * Verify License for Skip Silence Plus
+ * Verify License for DontBugMe Plus
  * 
  * @param license License Key from Gumroad
  * @param increase_count Should this verification increase the count of uses?

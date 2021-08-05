@@ -43,6 +43,14 @@ const possiblePasswordInput = [
  * Create a full keyboard event containing charCode, keyCode etc.
  */
 const createKeyboardEvent = (name : string, element : HTMLInputElement) => {
+  if (navigator.userAgent.indexOf('Firefox') !== -1 || navigator.userAgent.indexOf('Gecko/') !== -1) {
+    // Firefox requires using its own API
+    const ev = document.createEvent('KeyboardEvent');
+    // @ts-ignore
+    ev.initKeyEvent(name, true, false, null, false, false, false, false, 0, 0);
+    return ev;
+  }
+
   const ev = element.ownerDocument.createEvent('Events');
   ev.initEvent(name, true, false);
 
@@ -97,7 +105,6 @@ function insertToFieldsWithSelector(selector : string, value : string) {
       element.classList.remove('com-dontbugme-animated-fill');
     }, 200);
   }
-
 }
 
 browser.runtime.onMessage.addListener(async (msg, sender) => {
