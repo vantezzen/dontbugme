@@ -50,7 +50,6 @@ const createKeyboardEvent = (name : string, element : HTMLInputElement) => {
     ev.initKeyEvent(name, true, false, null, false, false, false, false, 0, 0);
     return ev;
   }
-
   const ev = element.ownerDocument.createEvent('Events');
   ev.initEvent(name, true, false);
 
@@ -93,9 +92,11 @@ function insertToFieldsWithSelector(selector : string, value : string) {
     // Pretend interaction with the element
     element.click();
     element.focus();
-    element.dispatchEvent(createKeyboardEvent('keydown', element));
-    element.dispatchEvent(createKeyboardEvent('keypress', element));
-    element.dispatchEvent(createKeyboardEvent('keyup', element));
+    try {
+      element.dispatchEvent(createKeyboardEvent('keydown', element));
+      element.dispatchEvent(createKeyboardEvent('keypress', element));
+      element.dispatchEvent(createKeyboardEvent('keyup', element));
+    } catch(e) {}
 
     element.value = value;
 
