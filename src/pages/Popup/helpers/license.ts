@@ -1,4 +1,5 @@
 import { browser } from 'webextension-polyfill-ts';
+import { hasCache, writeCache } from './cache';
 
 /**
  * Verify License for Skip Silence Plus
@@ -14,6 +15,10 @@ export default async function verifyLicense(license : string | undefined = undef
     if (!key) return false;
   }
 
+  if (hasCache(`plus-cache-${key}`)) {
+    return true;
+  }
+
   let formData = new FormData();
   formData.append('product_permalink', 'vXoaYS');
   formData.append('license_key', key);
@@ -27,6 +32,7 @@ export default async function verifyLicense(license : string | undefined = undef
     const data = await response.json();
 
     if (data && data.uses < 100) {
+      writeCache(`plus-cache-${key}`, 'yes');
       return true;
     }
   } catch(e) {}

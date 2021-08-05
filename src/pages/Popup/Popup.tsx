@@ -157,7 +157,7 @@ export default class Popup extends React.Component {
 
           {(typeof accounts === "object" && accounts.length > 0) ? (
             <>
-              <AccountsList accounts={accountListItems} isPlus={isPlus} />
+              <AccountsList accounts={accountListItems} isPlus={isPlus} showPlusPopup={() => this.setState({ showPlusPopup: true })} />
               {hiddenItems > 0 && (
                 <button 
                   className="bg-brand-card rounded flex justify-center items-center text-white p-4 my-4 w-full transform duration-300 hover:scale-105"

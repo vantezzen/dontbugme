@@ -2,12 +2,12 @@ import React from 'react';
 import { Account } from '../../../types';
 import { default as AccountDisplay } from './Account';
 
-const AccountsList = ({ accounts, isPlus } : { accounts: Account[], isPlus: boolean }) => (
+const AccountsList = ({ accounts, isPlus, showPlusPopup } : { accounts: Account[], isPlus: boolean, showPlusPopup: () => void }) => (
   <div className="text-center">
   
     <div>
       {accounts.map(account => (
-        <AccountDisplay account={account} key={account.name} isPlus={isPlus} />
+        <AccountDisplay account={account} key={account.name} isPlus={isPlus} showPlusPopup={showPlusPopup} />
       ))}
     </div>
 

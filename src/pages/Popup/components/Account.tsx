@@ -7,9 +7,33 @@ import { autofillData } from '../helpers/autofill';
 import { voteForAccount } from '../helpers/bugMeNotApi';
 import getSuccessRateColor from '../helpers/successRateColor';
 
-const Account = ({ account, isPlus } : { account: Account, isPlus: boolean }) => {
+import "./Account.scss";
+
+const Account = ({ account, isPlus, showPlusPopup } : { account: Account, isPlus: boolean, showPlusPopup: () => void }) => {
   const [showVoteBox, setShowVoteBox] = React.useState(false);
   const [hasCastedVote, setHasCastedVote] = React.useState(false);
+
+  const castVote = (works : boolean) => {
+    if (isPlus) {
+      voteForAccount(account, works);
+      setHasCastedVote(true);
+
+      // Reset last used account so we don't show it again after voting
+      localStorage.lastUsedAccount = -1;
+
+      window.plausible('cast_vote', { props: { works } });
+    } else {
+      window.plausible('cast_vote_non_plus', { props: { works } });
+
+      showPlusPopup();
+    }
+  }
+
+  const displayVoteBox = () => {
+    setShowVoteBox(true);
+    localStorage.lastUsedAccount = account.id;
+    window.plausible('display_vote_box');
+  }
 
   useEffect(() => {
     // Check if the account is the last used account before the popup was closed
@@ -19,16 +43,18 @@ const Account = ({ account, isPlus } : { account: Account, isPlus: boolean }) =>
     }
   }, []);
 
+  const hasAlreadyVoted = localStorage[`voted-${account.id}-${account.site}`] === 'yes';
+
   let voteBox = (<></>);
   if (hasCastedVote) {
     voteBox = (
-      <p className="text-white">
+      <p className="text-brand-text-2">
         Your vote has been casted.
       </p>
     );
-  } else if (localStorage[`voted-${account.id}-${account.site}`] === 'yes') {
+  } else if (hasAlreadyVoted) {
     voteBox = (
-      <p className="text-white">
+      <p className="text-brand-text-2">
         You already voted for this account.
       </p>
     );
@@ -38,12 +64,7 @@ const Account = ({ account, isPlus } : { account: Account, isPlus: boolean }) =>
 
         <button 
           className="bg-green-500 rounded flex items-center justify-center p-3 transform hover:scale-105 duration-200"
-          onClick={() => {
-            if (isPlus) {
-              voteForAccount(account, true);
-              setHasCastedVote(true);
-            }
-          }}
+          onClick={() => castVote(true)}
         >
           <ThumbsUp className="mr-3" />
           Yes
@@ -51,12 +72,7 @@ const Account = ({ account, isPlus } : { account: Account, isPlus: boolean }) =>
 
         <button 
           className="bg-red-500 rounded flex items-center justify-center p-3 transform hover:scale-105 duration-200"
-          onClick={() => {
-            if (isPlus) {
-              voteForAccount(account, false);
-              setHasCastedVote(true);
-            }
-          }}
+          onClick={() => castVote(false)}
         >
           <ThumbsDown className="mr-3" />
           No
@@ -69,12 +85,11 @@ const Account = ({ account, isPlus } : { account: Account, isPlus: boolean }) =>
   return (
     <>
       <button 
-        className="bg-brand-card rounded flex p-4 my-4 justify-items-stretch items-stretch w-full transform duration-300 hover:scale-105"
+        className="bg-brand-card rounded flex p-4 my-4 justify-items-stretch items-stretch w-full transform duration-300 hover:scale-105 z-10"
         title="Auto-fill"
         onClick={async () => {
           autofillData(account.name, account.password);
-          setShowVoteBox(true);
-          localStorage.lastUsedAccount = account.id;
+          displayVoteBox();
         }}
       >
         
@@ -100,6 +115,7 @@ const Account = ({ account, isPlus } : { account: Account, isPlus: boolean }) =>
             onClick={() => {
               navigator.clipboard.writeText(account.name)
               toast.dark("Username copied")
+              displayVoteBox();
             }}
             title="Copy username"
           >
@@ -112,6 +128,7 @@ const Account = ({ account, isPlus } : { account: Account, isPlus: boolean }) =>
             onClick={() => {
               navigator.clipboard.writeText(account.password)
               toast.dark("Password copied")
+              displayVoteBox();
             }}
             title="Copy password"
           >
@@ -122,13 +139,23 @@ const Account = ({ account, isPlus } : { account: Account, isPlus: boolean }) =>
 
       </button>
 
-      {showVoteBox && (
-        <div className="mx-3 -mt-4 bg-brand-card p-3 rounded-b">
+      {showVoteBox && !hasAlreadyVoted && (
+        <div className="mx-3 -mt-4 bg-brand-card p-3 rounded-b votebox">
           <h3 className="font-bold text-white">
             Does this account work?
           </h3>
 
           {voteBox}
+
+          <button 
+            className="text-brand-text-2 text-xs mt-4"
+            onClick={() => {
+              setShowVoteBox(false);
+              localStorage.lastUsedAccount = -1;
+            }}
+          >
+            Dismiss
+          </button>
 
         </div>
       )}
