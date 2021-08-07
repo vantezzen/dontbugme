@@ -10,7 +10,8 @@ module.exports = {
           card: '#29332E',
 
           'text-1': '#D7DFDB',
-          'text-2': '#A5B6AD'
+          'text-2': '#A5B6AD',
+          'text-3': '#6e877a',
         }
       }
     },

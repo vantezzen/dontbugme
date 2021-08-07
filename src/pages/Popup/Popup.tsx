@@ -7,7 +7,7 @@ import AccountsList from './components/AccountsList';
 import Footer from './components/Footer';
 import Header from './components/Header';
 import { getCurrentDomain, getPossibleDomains } from './helpers/browser';
-import getAccountsForDomain from './helpers/bugMeNotApi';
+import getAccountsForDomain from './helpers/providerApi';
 import verifyLicense from './helpers/license';
 
 import './Popup.css';

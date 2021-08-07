@@ -3,9 +3,9 @@ import bmc from '../../../assets/img/bmc.png';
 
 const Footer = ({ isPlus, openPlusPopup } : { isPlus: boolean, openPlusPopup: () => void }) => (
   <div className="text-brand-text-2 mt-8 text-xs flex flex-col items-center text-center">
-    <p>
+    {/* <p>
       Results provided by <a href="https://bugmenot.com" className="text-brand-main">BugMeNot.com</a>.<br />This extension is not affiliated with BugMeNot.com.<br /><br />
-    </p>
+    </p> */}
 
     <p>
       Developed by <a href="https://github.com/vantezzen" target="_blank" className="text-brand-main">vantezzen</a>.

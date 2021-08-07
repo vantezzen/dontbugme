@@ -4,7 +4,7 @@ import { Key, ThumbsDown, ThumbsUp, User } from 'react-feather';
 import { toast } from 'react-toastify';
 import { Account } from '../../../types';
 import { autofillData } from '../helpers/autofill';
-import { voteForAccount } from '../helpers/bugMeNotApi';
+import { PROVIDERS, voteForAccount } from '../helpers/providerApi';
 import getSuccessRateColor from '../helpers/successRateColor';
 
 import "./Account.scss";
@@ -44,6 +44,7 @@ const Account = ({ account, isPlus, showPlusPopup } : { account: Account, isPlus
   }, []);
 
   const hasAlreadyVoted = localStorage[`voted-${account.id}-${account.site}`] === 'yes';
+  const provider = PROVIDERS.find(p => p.name === account.provider);
 
   let voteBox = (<></>);
   if (hasCastedVote) {
@@ -105,6 +106,7 @@ const Account = ({ account, isPlus, showPlusPopup } : { account: Account, isPlus
         <div className="flex flex-col justify-center text-left">
           <h3 className="text-brand-text-1 font-semibold">{account.name}</h3>
           <span className="text-brand-text-2 text-sm">{account.password}</span>
+          <span className="text-brand-text-3 text-xs mt-1">Provided by {provider?.name}</span>
         </div>
 
         {/* Action buttons */}
@@ -140,7 +142,7 @@ const Account = ({ account, isPlus, showPlusPopup } : { account: Account, isPlus
 
       </button>
 
-      {showVoteBox && !hasAlreadyVoted && (
+      {(showVoteBox && !hasAlreadyVoted && provider?.supportsVote) && (
         <div className="mx-3 -mt-4 bg-brand-card p-3 rounded-b votebox">
           <h3 className="font-bold text-white">
             Does this account work?
