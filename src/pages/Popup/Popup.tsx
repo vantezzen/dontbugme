@@ -104,7 +104,7 @@ export default class Popup extends React.Component {
 
     let accountListItems = accounts;
     let hiddenItems = 0;
-    if (!isPlus) {
+    if (!isPlus && accounts && accounts.slice) {
       accountListItems = accounts.slice(0, 2);
       hiddenItems = accounts.length - accountListItems.length;
     }
