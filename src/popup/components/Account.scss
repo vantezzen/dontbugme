@@ -1,0 +1,11 @@
+.votebox {
+  transform-origin: top;
+  animation: votebox 0.25s;
+}
+
+@keyframes votebox {
+  from {
+    opacity: 0;
+    transform: scaleY(0);
+  }
+}
