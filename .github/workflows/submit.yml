@@ -27,3 +27,4 @@ jobs:
         with:
           keys: ${{ secrets.SUBMIT_KEYS }}
           artifact: build/chrome-mv3-prod.zip
+          verbose: true
