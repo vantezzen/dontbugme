@@ -8,7 +8,7 @@ import "fontsource-poppins/700.css";
 import "fontsource-poppins/800.css";
 import "fontsource-poppins/900.css";
 
-import "https://a.vantezzen.io/js/plausible.js";
+import "./external/plausible";
 
 // @ts-ignore
 window.plausible =
