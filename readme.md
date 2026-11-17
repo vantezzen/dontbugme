@@ -1,3 +1,11 @@
+> [!NOTE]
+> BugMeNot has officially closed.
+> I've been looking for alternative providers to support here, but so far all of them are sketchy or only offer very few actual credentials. With this, unfortunately I'm forced to also close DontBugMe.
+> Thank you for using DontBugMe!
+
+
+ ---
+ 
  <p align="center">
     <img src="assets/icon512.png" height="100"><br /><br />
     <a href="https://addons.mozilla.org/en-US/firefox/addon/dontbugme/">
